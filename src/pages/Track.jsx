@@ -59,9 +59,9 @@ export default function Track({ questions, addQuestion, updateQuestion, deleteQu
             </div>
 
             <div className="canvas-grid pb-20">
-                {Object.entries(groupedQuestions).map(([group, items]) => (
+                {Object.entries(groupedQuestions).sort((a, b) => a[0].localeCompare(b[0])).map(([group, items]) => (
                     <div key={group} className="glass-card break-inside-avoid mb-6">
-                        <h3 className="font-bold text-lg mb-4 text-slate-400 uppercase tracking-wider text-xs border-b border-slate-100 pb-2">
+                        <h3 className="font-bold text-lg mb-4 text-blue-600 uppercase tracking-wider text-xs border-b border-blue-100 pb-2">
                             {group}
                         </h3>
                         <div className="grid gap-4">

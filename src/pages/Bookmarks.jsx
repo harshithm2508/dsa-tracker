@@ -10,10 +10,18 @@ export default function Bookmarks({ questions, toggleBookmark, markAsSolved }) {
         // Compare dates (YYYY-MM-DD)
         return q.scheduledFor.split('T')[0] === selectedDate;
     }).sort((a, b) => {
+        // Sort by status: Unsolved first, Solved last
+        const isASolved = a.status === 'Solved';
+        const isBSolved = b.status === 'Solved';
+        if (isASolved && !isBSolved) return 1;
+        if (!isASolved && isBSolved) return -1;
+
         // Sort by scheduledFor date ascending
         // If no date, put at the end
-        if (!a.scheduledFor) return 1;
-        if (!b.scheduledFor) return -1;
+        if (!a.scheduledFor && b.scheduledFor) return 1;
+        if (a.scheduledFor && !b.scheduledFor) return -1;
+        if (!a.scheduledFor && !b.scheduledFor) return 0;
+
         return new Date(a.scheduledFor) - new Date(b.scheduledFor);
     });
 
@@ -58,48 +66,79 @@ export default function Bookmarks({ questions, toggleBookmark, markAsSolved }) {
                     </p>
                 </div>
             ) : (
-                <div className="grid gap-4">
-                    {bookmarkedQuestions.map(q => (
-                        <div key={q.id} className="glass-card flex justify-between items-center">
-                            <div>
-                                <div className="flex items-center gap-3 mb-1">
-                                    <h3 className="font-bold text-lg">{q.title}</h3>
-                                    {q.status === 'Solved' && (
-                                        <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                                            Solved
-                                        </span>
-                                    )}
-                                    {q.scheduledFor && (
-                                        <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100 flex items-center gap-1">
-                                            📅 {new Date(q.scheduledFor).toLocaleDateString()}
-                                        </span>
-                                    )}
+                <div className="space-y-8">
+                    {/* Unsolved Section */}
+                    <div className="grid gap-4">
+                        {bookmarkedQuestions.filter(q => q.status !== 'Solved').map(q => (
+                            <div key={q.id} className="glass-card flex justify-between items-center">
+                                <div>
+                                    <div className="flex items-center gap-3 mb-1">
+                                        <h3 className="font-bold text-lg">{q.title}</h3>
+                                        {q.scheduledFor && (
+                                            <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100 flex items-center gap-1">
+                                                📅 {new Date(q.scheduledFor).toLocaleDateString()}
+                                            </span>
+                                        )}
+                                    </div>
+                                    <div className="flex gap-2 text-sm text-slate-500">
+                                        {q.tags.map(t => <span key={t}>#{t}</span>)}
+                                    </div>
                                 </div>
-                                <div className="flex gap-2 text-sm text-slate-500">
-                                    {q.tags.map(t => <span key={t}>#{t}</span>)}
-                                </div>
-                            </div>
 
-                            <div className="flex items-center gap-3">
-                                {q.link && (
-                                    <a href={q.link} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-xs">
-                                        Solve
-                                    </a>
-                                )}
-                                {q.status !== 'Solved' && (
+                                <div className="flex items-center gap-3">
+                                    {q.link && (
+                                        <a href={q.link} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-xs">
+                                            Solve
+                                        </a>
+                                    )}
                                     <button onClick={() => markAsSolved(q.id)} className="btn btn-primary text-xs">
                                         Mark Solved
                                     </button>
-                                )}
-                                <button
-                                    onClick={() => toggleBookmark(q.id)}
-                                    className="btn btn-secondary text-xs text-yellow-600 border-yellow-200 hover:bg-yellow-50"
-                                >
-                                    Remove Bookmark
-                                </button>
+                                    <button
+                                        onClick={() => toggleBookmark(q.id)}
+                                        className="btn btn-secondary text-xs text-yellow-600 border-yellow-200 hover:bg-yellow-50"
+                                    >
+                                        Remove Bookmark
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Solved Section */}
+                    {bookmarkedQuestions.filter(q => q.status === 'Solved').length > 0 && (
+                        <div>
+                            <h3 className="font-bold text-lg mb-4 text-green-600 uppercase tracking-wider text-xs border-b border-green-100 pb-2">
+                                Solved Bookmarks
+                            </h3>
+                            <div className="grid gap-4 opacity-75">
+                                {bookmarkedQuestions.filter(q => q.status === 'Solved').map(q => (
+                                    <div key={q.id} className="glass-card flex justify-between items-center bg-slate-50 border-slate-100">
+                                        <div>
+                                            <div className="flex items-center gap-3 mb-1">
+                                                <h3 className="font-bold text-lg text-slate-600 line-through decoration-slate-400">{q.title}</h3>
+                                                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                                                    Solved
+                                                </span>
+                                            </div>
+                                            <div className="flex gap-2 text-sm text-slate-400">
+                                                {q.tags.map(t => <span key={t}>#{t}</span>)}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center gap-3">
+                                            <button
+                                                onClick={() => toggleBookmark(q.id)}
+                                                className="btn btn-secondary text-xs text-slate-400 hover:text-red-500"
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </div>
-                    ))}
+                    )}
                 </div>
             )}
         </div>
