@@ -111,7 +111,7 @@ export default function Bookmarks({ questions, toggleBookmark, markAsSolved }) {
                         <div>
                             <button
                                 onClick={() => setShowSolved(!showSolved)}
-                                className="w-full flex justify-center items-center gap-10 font-bold text-lg mb-4 text-green-600 uppercase tracking-wider text-xs border border-green-500 pb-2 hover:bg-green-50 transition-colors rounded px-2"
+                                className="w-full flex justify-center items-center gap-2 font-bold text-lg mb-4 text-green-600 uppercase tracking-wider text-xs border border-green-500 py-2 hover:bg-green-50 transition-colors rounded px-2"
                             >
                                 <span>Solved Bookmarks</span>
                                 <span>({bookmarkedQuestions.filter(q => q.status === 'Solved').length}) {showSolved ? '^' : '>'} </span>
