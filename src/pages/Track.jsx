@@ -41,7 +41,7 @@ export default function Track({ questions, addQuestion, updateQuestion, deleteQu
     };
 
     return (
-        <div className="relative border-x-10 border-white min-h-[80vh]">
+        <div className="relative border-x-10 border-white">
             <div className="flex justify-between items-center mb-8 sticky top-0 bg-slate-50/90 backdrop-blur z-10 py-2 border-b border-slate-200">
                 <h1 className="text-3xl font-bold">Track Questions</h1>
                 <div className="flex gap-4">

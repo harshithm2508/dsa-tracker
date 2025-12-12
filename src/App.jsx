@@ -22,7 +22,7 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<Dashboard stats={stats} />} />
+          <Route path="/" element={<Dashboard stats={stats} questions={questions} />} />
           <Route path="/track" element={
             <Track
               questions={questions}

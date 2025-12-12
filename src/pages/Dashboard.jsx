@@ -1,4 +1,6 @@
-export default function Dashboard({ stats }) {
+export default function Dashboard({ stats, questions }) {
+    const today = new Date().toISOString().split('T')[0];
+    const todaysBookmarks = questions.filter(q => q.isBookmarked && q.scheduledFor && q.scheduledFor.split('T')[0] === today);
     return (
         <div className="max-w-4xl mx-auto">
             <h1 className="text-3xl font-bold mb-8">Your Progress</h1>
@@ -28,4 +30,28 @@ export default function Dashboard({ stats }) {
             </div>
         </div>
     );
+    // Render today's bookmarked questions below stats
+    {
+        todaysBookmarks.length > 0 && (
+            <div className="mt-8">
+                <h2 className="text-2xl font-bold mb-4">Today's Bookmarked Questions</h2>
+                <div className="grid gap-4">
+                    {todaysBookmarks.map(q => (
+                        <div key={q.id} className="glass-card p-4 flex justify-between items-center">
+                            <div>
+                                <h3 className="font-bold text-lg">{q.title}</h3>
+                                {q.scheduledFor && (
+                                    <span className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full border border-blue-100">
+                                        📅 {new Date(q.scheduledFor).toLocaleDateString()}
+                                    </span>
+                                )}
+                            </div>
+                            <a href={q.link} target="_blank" rel="noopener noreferrer" className="btn btn-secondary text-xs">Solve</a>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )
+    }
+
 }
