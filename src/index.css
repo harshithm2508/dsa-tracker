@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 :root {
   --bg-color: #f8fafc;
   --text-color: #1e293b;
@@ -14,34 +16,32 @@
 }
 
 body {
-  margin: 0;
   font-family: var(--font-main);
   background-color: var(--bg-color);
   color: var(--text-color);
-  background-image: 
-    radial-gradient(at 0% 0%, hsla(210, 100%, 96%, 1) 0, transparent 50%), 
-    radial-gradient(at 50% 0%, hsla(210, 100%, 98%, 1) 0, transparent 50%), 
+  background-image:
+    radial-gradient(at 0% 0%, hsla(210, 100%, 96%, 1) 0, transparent 50%),
+    radial-gradient(at 50% 0%, hsla(210, 100%, 98%, 1) 0, transparent 50%),
     radial-gradient(at 100% 0%, hsla(200, 100%, 96%, 1) 0, transparent 50%);
   background-attachment: fixed;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 /* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
+
 ::-webkit-scrollbar-track {
   background: transparent;
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--secondary-color);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary-color);
 }
@@ -52,7 +52,6 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
-  border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -73,17 +72,7 @@ body {
 
 /* Buttons */
 .btn {
-  padding: 0.75rem 1.5rem;
-  border-radius: 8px;
-  border: none;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: center;
+  @apply px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-200 inline-flex items-center gap-2 justify-center;
 }
 
 .btn-primary {
@@ -111,61 +100,16 @@ body {
 }
 
 /* Inputs */
-input, textarea, select {
-  background: #f1f5f9;
-  border: 1px solid var(--glass-border);
-  color: var(--text-color);
-  padding: 0.75rem;
-  border-radius: 8px;
-  width: 100%;
-  font-family: inherit;
-  transition: border-color 0.2s;
+input,
+textarea,
+select {
+  @apply bg-slate-100 border border-slate-200 text-slate-800 p-3 rounded-lg w-full transition-colors;
 }
 
-input:focus, textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  margin-top: 0;
-  color: var(--text-color);
-}
-
-a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
-/* Layout */
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.grid {
-  display: grid;
-  gap: 1.5rem;
-}
-
-.flex {
-  display: flex;
-  gap: 1rem;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-between {
-  justify-content: space-between;
+input:focus,
+textarea:focus,
+select:focus {
+  @apply outline-none border-blue-500 ring-2 ring-blue-500/10;
 }
 
 /* Canvas Layout */
@@ -178,8 +122,15 @@ a:hover {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -188,10 +139,5 @@ a:hover {
 
 /* Tags */
 .tag {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  background: #e2e8f0;
-  color: #475569;
-  font-weight: 500;
+  @apply text-xs px-2 py-1 rounded bg-slate-200 text-slate-600 font-medium;
 }

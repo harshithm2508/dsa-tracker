@@ -26,6 +26,7 @@ export const useQuestions = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(questionData),
       });
+      if (!res.ok) throw new Error('Failed to add question');
       const newQuestion = await res.json();
       setQuestions([newQuestion, ...questions]);
     } catch (err) {
@@ -40,6 +41,7 @@ export const useQuestions = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updates),
       });
+      if (!res.ok) throw new Error('Failed to update question');
       const updated = await res.json();
       setQuestions(questions.map(q => q.id === id ? updated : q));
     } catch (err) {
@@ -59,7 +61,12 @@ export const useQuestions = () => {
   const toggleBookmark = (id) => {
     const question = questions.find(q => q.id === id);
     if (question) {
-      updateQuestion(id, { isBookmarked: !question.isBookmarked });
+      const updates = { isBookmarked: !question.isBookmarked };
+      // If unbookmarking, clear the scheduled date
+      if (question.isBookmarked) {
+        updates.scheduledFor = null;
+      }
+      updateQuestion(id, updates);
     }
   };
 

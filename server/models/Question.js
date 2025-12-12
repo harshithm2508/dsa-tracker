@@ -10,7 +10,11 @@ const questionSchema = new mongoose.Schema({
     timeComplexity: String,
     spaceComplexity: String,
     tags: [String],
-    code: String,
+    code: [{
+        title: { type: String, default: 'Solution' },
+        content: String
+    }],
+    scheduledFor: Date,
     dateAdded: { type: Date, default: Date.now },
     dateSolved: Date
 });

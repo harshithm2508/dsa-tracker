@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+// Force restart for schema update
 const mongoose = require('mongoose');
 const cors = require('cors');
 const questionRoutes = require('./routes/questions');

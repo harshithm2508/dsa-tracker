@@ -14,11 +14,14 @@ router.get('/', async (req, res) => {
 
 // POST new question
 router.post('/', async (req, res) => {
+    console.log('Received POST /api/questions:', req.body);
     const question = new Question(req.body);
     try {
         const newQuestion = await question.save();
+        console.log('Saved question to DB:', newQuestion);
         res.status(201).json(newQuestion);
     } catch (err) {
+        console.error('Error saving question:', err);
         res.status(400).json({ message: err.message });
     }
 });
