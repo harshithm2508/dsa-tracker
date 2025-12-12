@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 export default function Bookmarks({ questions, toggleBookmark, markAsSolved }) {
     const [selectedDate, setSelectedDate] = useState('');
+    const [showSolved, setShowSolved] = useState(false);
 
     const bookmarkedQuestions = questions.filter(q => {
         if (!q.isBookmarked) return false;
@@ -108,35 +109,42 @@ export default function Bookmarks({ questions, toggleBookmark, markAsSolved }) {
                     {/* Solved Section */}
                     {bookmarkedQuestions.filter(q => q.status === 'Solved').length > 0 && (
                         <div>
-                            <h3 className="font-bold text-lg mb-4 text-green-600 uppercase tracking-wider text-xs border-b border-green-100 pb-2">
-                                Solved Bookmarks
-                            </h3>
-                            <div className="grid gap-4 opacity-75">
-                                {bookmarkedQuestions.filter(q => q.status === 'Solved').map(q => (
-                                    <div key={q.id} className="glass-card flex justify-between items-center bg-slate-50 border-slate-100">
-                                        <div>
-                                            <div className="flex items-center gap-3 mb-1">
-                                                <h3 className="font-bold text-lg text-slate-600 line-through decoration-slate-400">{q.title}</h3>
-                                                <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
-                                                    Solved
-                                                </span>
-                                            </div>
-                                            <div className="flex gap-2 text-sm text-slate-400">
-                                                {q.tags.map(t => <span key={t}>#{t}</span>)}
-                                            </div>
-                                        </div>
+                            <button
+                                onClick={() => setShowSolved(!showSolved)}
+                                className="w-full flex justify-center items-center gap-10 font-bold text-lg mb-4 text-green-600 uppercase tracking-wider text-xs border border-green-500 pb-2 hover:bg-green-50 transition-colors rounded px-2"
+                            >
+                                <span>Solved Bookmarks</span>
+                                <span>({bookmarkedQuestions.filter(q => q.status === 'Solved').length}) {showSolved ? '^' : '>'} </span>
+                            </button>
 
-                                        <div className="flex items-center gap-3">
-                                            <button
-                                                onClick={() => toggleBookmark(q.id)}
-                                                className="btn btn-secondary text-xs text-slate-400 hover:text-red-500"
-                                            >
-                                                Remove
-                                            </button>
+                            {showSolved && (
+                                <div className="grid gap-4 opacity-75">
+                                    {bookmarkedQuestions.filter(q => q.status === 'Solved').map(q => (
+                                        <div key={q.id} className="glass-card flex justify-between items-center bg-slate-50 border-slate-100">
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <h3 className="font-bold text-lg text-slate-600 line-through decoration-slate-400">{q.title}</h3>
+                                                    <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
+                                                        Solved
+                                                    </span>
+                                                </div>
+                                                <div className="flex gap-2 text-sm text-slate-400">
+                                                    {q.tags.map(t => <span key={t}>#{t}</span>)}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center gap-3">
+                                                <button
+                                                    onClick={() => toggleBookmark(q.id)}
+                                                    className="btn btn-secondary text-xs text-slate-400 hover:text-red-500"
+                                                >
+                                                    Remove
+                                                </button>
+                                            </div>
                                         </div>
-                                    </div>
-                                ))}
-                            </div>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
